@@ -8,11 +8,12 @@ const messageRouter = require("./routes/messageRouter");
 const allertRouter = require("./routes/alertRoutes");
 const questionRouter = require("./routes/questionRoutes");
 const addeddRoutes = require("./routes/addeddRoutes");
-const cors = require('cors');
+const cors = require("cors");
 
 const { currentUser } = require("./middlewares/authMiddleware");
 
 require("dotenv").config({ path: ".env" });
+const MONGODB_URL = process.env.MONGODB_URL;
 
 const app = express();
 app.use(cors());
@@ -20,10 +21,10 @@ app.listen(3000);
 console.log("Listening on port 3000");
 
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json({limit:'20mb'}));
+app.use(bodyParser.json({ limit: "20mb" }));
 
 mongoose
-  .connect("mongodb+srv://lokman:5dQqrLZAxFGiWP4q@dawcluster.vxgdsew.mongodb.net/?retryWrites=true&w=majority ")
+  .connect(MONGODB_URL)
   .then(() => {
     console.log("db connected");
   })
