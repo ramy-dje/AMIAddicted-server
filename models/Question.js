@@ -7,6 +7,6 @@ const questionchema = new Schema({
   pointattquest: Number,
   orderaffquest: String,
   eventdepques: String,
-  repquest: [Object], //reponse de question
+  repquest:[Object], //reponse de question
 });
 module.exports = mongoose.model("Question", questionchema);

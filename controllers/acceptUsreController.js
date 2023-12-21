@@ -24,12 +24,16 @@ const acceptUserControlle = async (req, res) => {
       error: "You're Not Authorized to access this recource. ADMIN ONLY",
     });
   }*/
-
-  idUser = req.params.idUser;
+if(! req.params.idUser){
+  res.json({input: "notComplete"});
+}else{
+    idUser = req.params.idUser;
   userFunc.updateUser(idUser, { is_accepte: true });
   //000000000000000000000000000000000000000000000
   await alert.createAlert(idUser,{notification:'isAcceptNot',value:true})
   res.json({ success: true });
+}
+
 };
 module.exports = {
   findUnacceptedUserControlle,

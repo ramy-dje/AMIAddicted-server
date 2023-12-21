@@ -1,6 +1,6 @@
 const express = require("express");
-const alertModel= require("../models/Alerts")
 const router = express.Router();
+const alertController=require("../controllers/alertController");
 
 const {
   deleteAlerteControll,
@@ -15,108 +15,32 @@ router.route('/alert/acceptUser').get(getAlertsAcceptUser);
 
 // get alerts not vue 
 //update qst alert
-router.route('/alert/updateQst/Nvue/:idUser').get(async (req,res)=>{
-  await alertModel.find({id_Utilisateur:req.params.idUser,notification :'updateQst',vue:false}).sort({ date_alert: 1 }).
-  then((r)=>{
-    res.send(r);
-  });
-});
+router.route('/alert/updateQst/Nvue/:idUser').get(alertController.getAlertUpdateQstNvue);
 // update updateQuestionnaire
-router.route('/alert/updateQuestionnaire/Nvue/:idUser').get(async (req,res)=>{
-  await alertModel.find({id_Utilisateur:req.params.idUser,notification :'updateQuestionnaire',vue:false}).sort({ date_alert: 1 }).
-  then((r)=>{
-    res.send(r);
-  });
-});
+router.route('/alert/updateQuestionnaire/Nvue/:idUser').get(alertController.getAlertUpdateQuestionnaireNvue);
 // is accepted alert
-router.route('/alert/isAcceptNot/Nvue/:idUser').get(async (req,res)=>{
-  await alertModel.find({id_Utilisateur:req.params.idUser,notification :'isAcceptNot',vue:false}).sort({ date_alert: 1 }).
-  then((r)=>{
-    res.send(r);
-  });
-});
+router.route('/alert/isAcceptNot/Nvue/:idUser').get(alertController.getAlertIsAcceptNotNvue);
 // cnatct alert
-router.route('/alert/contact/Nvue/:idUser').get(async (req,res)=>{
-  await alertModel.find({id_Utilisateur:req.params.idUser,notification :'alertContact',vue:false}).sort({ date_alert: 1 }).
-  then((r)=>{
-    res.send(r);
-  });
-});
+router.route('/alert/contact/Nvue/:idUser').get(alertController.getAlertContactNvue);
 
 
 // VUE
 // put the alert as reading (ya3ni rahou chaf notification) isAceepted
-router.route('/alert/isAcceptNot/readAlert/:idUser').get(async (req,res)=>{
-  //{notification :'isAcceptNot',vue:false}
-  try{
-      let idUser=req.params.idUser;
-  await alertModel.updateMany({id_Utilisateur:idUser,notification:'isAcceptNot'},{vue:true});
-  res.json({ success: true });
-  }catch{
-    res.json({ success: false});
-  }
-});
+router.route('/alert/isAcceptNot/readAlert/:idUser').get(alertController.getAlertIsAcceptNotReadAlert);
 // put the alert as reading (ya3ni rahou chaf notification) updateQuestionnaire
-router.route('/alert/updateQuestionnaire/readAlert/:idUser').get(async (req,res)=>{
-  //{notification :'isAcceptNot',vue:false}
-  try{
-      let idUser=req.params.idUser;
-  await alertModel.updateMany({id_Utilisateur:idUser,notification:'updateQuestionnaire'},{vue:true});
-  res.json({ success: true });
-  }catch{
-    res.json({ success: false});
-  }
-});
+router.route('/alert/updateQuestionnaire/readAlert/:idUser').get(alertController.alertUpdateQuestionnaireReadAlert);
 // put the alert as reading (ya3ni rahou chaf notification) update qst alert
-router.route('/alert/updateQst/readAlert/:idUser').get(async (req,res)=>{
-  //{notification :'isAcceptNot',vue:false}
-  try{
-      let idUser=req.params.idUser;
-  await alertModel.updateMany({id_Utilisateur:idUser,notification:'updateQst'},{vue:true});
-  res.json({ success: true });
-  }catch{
-    res.json({ success: false});
-  }
-});
+router.route('/alert/updateQst/readAlert/:idUser').get(alertController.alertUpdateQstReadAlert);
 // put the alert as reading (ya3ni rahou chaf notification) alertContact
-router.route('/alert/contact/readAlert/:idUser').get(async (req,res)=>{
-  //{notification :'isAcceptNot',vue:false}
-  try{
-      let idUser=req.params.idUser;
-  await alertModel.updateMany({id_Utilisateur:idUser,notification:'alertContact'},{vue:true});
-  res.json({ success: true });
-  }catch{
-    res.json({ success: false});
-  }
-});
+router.route('/alert/contact/readAlert/:idUser').get(alertController.alertContactReadAlert);
 
 // get alerts  vue 
 //update qst alert
-router.route('/alert/updateQst/vue/:idUser').get(async (req,res)=>{
-  await alertModel.find({id_Utilisateur:req.params.idUser,notification :'updateQst',vue:true}).sort({ date_alert: 1 }).
-  then((r)=>{
-    res.send(r);
-  });
-});
+router.route('/alert/updateQst/vue/:idUser').get(alertController.getAlertUpdateQstVue);
 // update updateQuestionnaire
-router.route('/alert/updateQuestionnaire/vue/:idUser').get(async (req,res)=>{
-  await alertModel.find({id_Utilisateur:req.params.idUser,notification :'updateQuestionnaire',vue:true}).sort({ date_alert: 1 }).
-  then((r)=>{
-    res.send(r);
-  });
-});
+router.route('/alert/updateQuestionnaire/vue/:idUser').get(alertController.getAlertUpdateQuestionnaireVue);
 // is accepted alert
-router.route('/alert/isAcceptNot/vue/:idUser').get(async (req,res)=>{
-  await alertModel.find({id_Utilisateur:req.params.idUser,notification :'isAcceptNot',vue:true}).sort({ date_alert: 1 }).
-  then((r)=>{
-    res.send(r);
-  });
-});
+router.route('/alert/isAcceptNot/vue/:idUser').get(alertController.getAlertIsAcceptNotVue);
 // contact alert
-router.route('/alert/contact/vue/:idUser').get(async (req,res)=>{
-  await alertModel.find({id_Utilisateur:req.params.idUser,notification :'alertContact',vue:true}).sort({ date_alert: 1 }).
-  then((r)=>{
-    res.send(r);
-  });
-});
+router.route('/alert/contact/vue/:idUser').get(alertController.getAlertContactVue);
 module.exports = router;

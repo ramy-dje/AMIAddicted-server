@@ -1,132 +1,249 @@
 const qstFunc = require("../crud/crudQuestion");
 const allDoctorsAndAdmins= require("../crud/crudUser");
-const alertQst= require("../crud/crudAlertMessage")
+const alertQst= require("../crud/crudAlertMessage");
+const newQst = require('../models/NewQuestions');
 // ############################# CREATE
 // create question
 const createQstController = async (req, res) => {
-  const idQ = await qstFunc.createQst(req.body);
-  res.json({ success: true, idQst: idQ });
+  const {textdques,typeques,optionsrep,pointattquest,orderaffquest,eventdepques}=req.body;
+  if(!( textdques && typeques && optionsrep && pointattquest && orderaffquest && eventdepques)){
+    res.json({input: "notComplete"});
+  }else{
+    const idQ = await qstFunc.createQst(req.body);
+    res.json({ success: true, idQst: idQ });
+  }
 };
 
 // create reponse de question
 const createReponseQstController = async (req, res) => {
-  const idRQ = await qstFunc.createRepenseQst(req.body);
-  res.json({ success: true, idRepenseQst: idRQ });
+  const {repnsquest,scoreattrrep,cmntrreponse,autresattrrepns} = req.body;
+  if(!(repnsquest && scoreattrrep && cmntrreponse && autresattrrepns)){
+    res.json({input: "notComplete"});
+  }else{
+    const idRQ = await qstFunc.createRepenseQst(req.body);
+    res.json({ success: true, idRepenseQst: idRQ });
+  }
 };
 
 //    create questionner
 // you must put the id of patient in url
 const createQuestionnaireController = async (req, res) => {
-  const { idPatient } = req.body;
-  console.log(idPatient);
-  const idQ = await qstFunc.createQuestionnaire(idPatient, req.body);
-  res.json({ success: true, idQuest: idQ });
+  const { idPatient,datedquest,questions,autresattrques} = req.body;
+  if(!(idPatient && datedquest && questions && autresattrques)){
+    res.json({input: "notComplete"});
+  }else{
+    const idQ = await qstFunc.createQuestionnaire(idPatient, req.body);
+    res.json({ success: true, idQuest: idQ });
+  }
 };
 
 //    ############################## GET
 //    get questions
 const getAllQstController = async (req, res) => {
-  qstFunc.getAllQst().then((r) => {
-    res.json(r);
-  });
+  try{
+    qstFunc.getAllQst().then((r) => {
+      res.json(r);
+    });
+  }catch{
+    res.json({ success: false});
+  }
 };
 
 //    get all repense of questions
 const getAllRepenseQstController = async (req, res) => {
-  qstFunc.getAllReponseQst().then((r) => {
-    res.json(r);
-  });
+  try{
+    qstFunc.getAllReponseQst().then((r) => {
+      res.json(r);
+    });
+  }catch{
+    res.json({ success: false});
+  }
 };
 
 //      get All Questionners
 const getAllQuestionnaireController = async (req, res) => {
-  qstFunc.getAllQuestionnaire().then((r) => {
-    res.json(r);
-  });
+  try{
+    qstFunc.getAllQuestionnaire().then((r) => {
+      res.json(r);
+    });
+  }catch{
+    res.json({ success: false});
+  }
 };
 
 // get just one you must put the id in url
 const getQstController = async (req, res) => {
-  idQst = req.params.idQst;
-  qstFunc.getQst(idQst).then((r) => {
-    res.json(r);
-  });
+  try{
+    idQst = req.params.idQst;
+    qstFunc.getQst(idQst).then((r) => {
+      res.json(r);
+    });
+  }catch{
+    res.json({ success: false});
+  }
 };
 
 const getRepenseQstController = async (req, res) => {
-  idRQst = req.params.idRQst;
-  qstFunc.getReponseQst(idRQst).then((r) => {
-    res.json(r);
-  });
+  try{
+    idRQst = req.params.idRQst;
+    qstFunc.getReponseQst(idRQst).then((r) => {
+      res.json(r);
+    });
+  }catch{
+    res.json({ success: false});
+  }
 };
 
 const getQuestionnerController = async (req, res) => {
-  idQuestionner = req.params.idQuestionner;
-  qstFunc.getQuestionnaire(idQuestionner).then((r) => {
-    res.json(r);
-  });
+  try{
+    idQuestionner = req.params.idQuestionner;
+    qstFunc.getQuestionnaire(idQuestionner).then((r) => {
+      res.json(r);
+    });
+  }catch{
+    res.json({ success: false});
+  }
 };
 
 // ############################ DELETE
 // lazem t7ot l id f url
 
 const deleteQstController = async (req, res) => {
-  idQst = req.params.idQst;
-  await qstFunc.deleteQst(idQst);
-  res.json({ success: true });
+  try{
+    idQst = req.params.idQst;
+    await qstFunc.deleteQst(idQst);
+    res.json({ success: true });
+  }catch{
+    res.json({ success: false});
+  }
 };
 
 const deleteRepQstController = async (req, res) => {
-  idRepQst = req.params.idRepQst;
-  await qstFunc.deleteRepQst(idRepQst);
-  res.json({ success: true });
+  try{
+    idRepQst = req.params.idRepQst;
+    await qstFunc.deleteRepQst(idRepQst);
+    res.json({ success: true });
+  }catch{
+    res.json({ success: false});
+  }
 };
 
 const deleteQuestionnaireController = async (req, res) => {
-  idQuestionnaire = req.params.idQuestionnaire;
-  await qstFunc.deleteQuestionnaire(idQuestionnaire);
-  res.json({ success: true });
+  try{
+    idQuestionnaire = req.params.idQuestionnaire;
+    await qstFunc.deleteQuestionnaire(idQuestionnaire);
+    res.json({ success: true });
+  }catch{
+    res.json({ success: false});
+  }
 };
 // ################################ UPDATE
 const updateQstController = async (req, res) => {
-  let idQst = req.params.idQst;
-  // in the body you must have the new information
-  // to update
-  await qstFunc.updateQst(idQst, req.body);
-  allDoctorsAndAdmins.getUsers().then((r)=>{
-    for (let i = 0 ;i<=r.length-1;i++){
-      if(r[i].role == 'ADMIN' || r[i].role == 'ADMIN'){
-        alertQst.createAlert(r[i]._id,{notification:'updateQst',value:true});
-      }
+  if(! req.body){
+    res.json({input: "notComplete"});
+  }else{
+    try{
+      let idQst = req.params.idQst;
+      // in the body you must have the new information
+      // to update
+      await qstFunc.updateQst(idQst, req.body);
+      allDoctorsAndAdmins.getUsers().then((r)=>{
+        for (let i = 0 ;i<=r.length-1;i++){
+          if(r[i].role == 'ADMIN' || r[i].role == 'ADMIN'){
+            alertQst.createAlert(r[i]._id,{notification:'updateQst',value:true});
+          }
+        }
+      })
+      res.json({ success: true });
+    }catch{
+      res.json({ success: false});
     }
-  })
-  res.json({ success: true });
+  }
 };
 
 const updateRepQstController = async (req, res) => {
-  idRepQst = req.params.idRepQst;
-  // in the body you must have the new information
-  // to update
-  await qstFunc.updateRepenseQst(idRepQst, req.body);
-  res.json({ success: true });
+  if(! req.body){
+    res.json({input: "notComplete"});
+  }else{
+    try{
+      idRepQst = req.params.idRepQst;
+      // in the body you must have the new information
+      // to update
+      await qstFunc.updateRepenseQst(idRepQst, req.body);
+      res.json({ success: true });
+    }catch{
+      res.json({ success: false});
+    }
+  }
 };
 
 const updateQuestionnaireController = async (req, res) => {
-  idRepQuestionnaire = req.params.idRepQuestionnaire;
-  // in the body you must have the new information
-  // to update
-  await qstFunc.updateQuestionnaire(idRepQuestionnaire, req.body);
-  // the alert
-  await allDoctorsAndAdmins.getUsers().then((r)=>{
-    for (let i = 0 ;i<=r.length-1;i++){
-      if(r[i].role == 'ADMIN' || r[i].role == 'ADMIN'){
-        alertQst.createAlert(r[i]._id,{notification:'updateQuestionnaire',value:true});
-      }
+  if(req.body){
+    res.json({input: "notComplete"});
+  }else{
+    try{
+      idRepQuestionnaire = req.params.idRepQuestionnaire;
+      // in the body you must have the new information
+      // to update
+      await qstFunc.updateQuestionnaire(idRepQuestionnaire, req.body);
+      // the alert
+      await allDoctorsAndAdmins.getUsers().then((r)=>{
+        for (let i = 0 ;i<=r.length-1;i++){
+          if(r[i].role == 'ADMIN' || r[i].role == 'ADMIN'){
+            alertQst.createAlert(r[i]._id,{notification:'updateQuestionnaire',value:true});
+          }
+        }
+      })
+      res.json({ success: true });
+    }catch{
+      res.json({ success: false});
     }
-  })
-  res.json({ success: true });
+  }
+
 };
+
+//################################ ALL ABOUT NEW QUESTION #########
+const getNewQst = async(req,res)=>{
+  try{
+      await newQst.find().then((r)=>{
+          res.json(r);
+      })
+  }catch{
+      res.json({succes:false});
+  }
+}
+
+const updateNewQst = async (req,res)=>{
+  if(! req.body){
+    res.json({input: "notComplete"});
+  }else{
+    try{
+        await newQst.updateMany({},req.body);
+        res.json({succes:true});
+    }catch{
+        res.json({succes:false});
+    }
+  }
+}
+
+const createNewQst = async (req,res)=>{
+  const {list}=req.body;
+  if(! list){
+    res.json({input: "notComplete"});
+  }else{
+    try{
+        const create=await new newQst(req.body);
+        create.save();
+        res.json({succes:true});
+    }catch{
+        res.json({succes:false});
+    }
+  }
+}
 module.exports = {
+  createNewQst,
+  updateNewQst,
+  getNewQst,
   updateQuestionnaireController,
   updateRepQstController,
   updateQstController,
