@@ -13,12 +13,15 @@
     let h1=document.querySelector("h1");
     h1.addEventListener("click",(e)=>{
         e.preventDefault();
-        const user=[
-            {userId:'65803bc8a0195b43c6d84d8c'},
-            {userId:'65803b633d86994cc7c92f05'},
-            {userId:'65803a9ea733a88c06ef38ff'}
-        ]
-        fetch('/addContact/658030612247ba081110ddc4',{
+        const user={
+            listName:'new list me amigo',
+            list:[
+                {
+                    question:'what app'
+                }
+            ]
+        }
+        fetch('/',{
             method:'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -2,7 +2,6 @@ const question=require("../models/Question");
 const Questionnaire=require("../models/Questionnaire");
 const alert=require('../models/Alerts');
 const Rpnsquest=require("../models/Rpnsquest");
-
 // ################################# CREATE ##############################
 const createQst=async(qstInfo)=>{
     const create = new question(qstInfo);

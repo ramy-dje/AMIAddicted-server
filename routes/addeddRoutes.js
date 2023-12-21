@@ -12,7 +12,7 @@ router.route('/changeDoctorContact').put(userConttroller.changeDoctorContact);
 router.route('/updateUser/:id').put(userConttroller.updateUser);
 // ######################### ALL ABOUT NEW QUESTION 
 router.route('/getNewQst').get(qstController.getNewQst);
-router.route('/updateNewQst').post(qstController.updateNewQst);
+router.route('/updateNewQst').post(qstController.deleteNewQst);
 router.route('/createNewQst').post(qstController.createNewQst);
 
 module.exports = router;

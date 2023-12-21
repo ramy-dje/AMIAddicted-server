@@ -213,12 +213,13 @@ const getNewQst = async(req,res)=>{
   }
 }
 
-const updateNewQst = async (req,res)=>{
-  if(! req.body){
+const deleteNewQst = async (req,res)=>{
+  const {listName}=req.body;
+  if(! listName){
     res.json({input: "notComplete"});
   }else{
     try{
-        await newQst.updateMany({},req.body);
+        await newQst.updateOne({},{$pull :{surveysList:{listName:listName}}});
         res.json({succes:true});
     }catch{
         res.json({succes:false});
@@ -227,13 +228,21 @@ const updateNewQst = async (req,res)=>{
 }
 
 const createNewQst = async (req,res)=>{
-  const {list}=req.body;
-  if(! list){
+  const {list,listName}=req.body;
+  if(! (list && listName)){
     res.json({input: "notComplete"});
   }else{
     try{
-        const create=await new newQst(req.body);
-        create.save();
+        const result = await newQst.find();
+        if(result.length==0){
+          const create = await new newQst({surveysList:{listName:listName,list:list}});
+          create.save();
+        }else{
+          //await newQst.updateOne({},{$pull :{surveysList:{listName:listName}}});
+          await newQst.updateOne({},{$push :{surveysList:{listName:listName,list:list}}});
+        }
+        //let n=await new newQst();
+        //n.save()
         res.json({succes:true});
     }catch{
         res.json({succes:false});
@@ -242,7 +251,7 @@ const createNewQst = async (req,res)=>{
 }
 module.exports = {
   createNewQst,
-  updateNewQst,
+  deleteNewQst,
   getNewQst,
   updateQuestionnaireController,
   updateRepQstController,
