@@ -134,6 +134,7 @@ const updateUser = async (req,res)=>{
         res.json({succes:false});
     }
 }
+//
 module.exports={
     getDoctors ,
     getPatients ,
