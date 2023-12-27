@@ -14,9 +14,18 @@
     h1.addEventListener("click",(e)=>{
         e.preventDefault();
         const user={
-            listName:'seconds'
+            listName:'secondsf',
+            list:{
+                question:'hello world',
+                answers:[{
+                    answer:'yep',
+                    value :200
+                }
+                ]
+            }
+
         }
-        fetch('/getOneNewQst',{
+        fetch('/createNewQst',{
             method:'POST',
             headers: {
                 'Content-Type': 'application/json'

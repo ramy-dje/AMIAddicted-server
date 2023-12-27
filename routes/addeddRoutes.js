@@ -43,8 +43,8 @@ router.route('/updateNewQst').post(async (req,res)=>{
         }
     }
 });
-router.route('/getOneNewQst').post(async (req,res)=>{
-    const {listName}=req.body;
+router.route('/getOneNewQst/:listName').get(async (req,res)=>{
+    const {listName}=req.params;
     if(!(listName)){
         res.json({input: "notComplete"});
     }else{
