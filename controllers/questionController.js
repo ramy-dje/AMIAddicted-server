@@ -227,6 +227,7 @@ const deleteNewQst = async (req,res)=>{
   }
 }
 
+
 const createNewQst = async (req,res)=>{
   const {list,listName}=req.body;
   if(! (list && listName)){
@@ -268,4 +269,5 @@ module.exports = {
   getQstController,
   getRepenseQstController,
   getQuestionnerController,
+
 };

@@ -6,7 +6,7 @@ const newQst = require('../models/NewQuestions');
 
 const getDoctors =async (req,res)=>{
     try{
-        const doc = await Users.find({role:'DOCTOR'});
+        const doc = await Users.find({role:'medcin'});
         res.json(doc);
     }catch(err){
         res.json({succes:false});
@@ -24,7 +24,7 @@ const getAdmins = async (req,res)=>{
 
 const getPatients = async (req,res)=>{
     try{
-        const pat = await Users.find({role:'PATIENT'});
+        const pat = await Users.find({role:'patient'});
         res.json(pat)
     }catch{
         res.json({succes:false});
@@ -97,6 +97,26 @@ const addDoctorContact= async (req,res)=>{
         res.json({succes:false});
     }
 }
+const deleteDoctorContact= async (req,res)=>{
+    try{
+        const {Doc,Patient} = req.body;
+        
+        const patient = await Users.updateOne(
+         {_id : Patient._id},
+         {
+           $pull: { 'contacts': Doc },
+         }
+       );
+         
+         //await doctor.save();
+         res.json({
+             s:'done',
+             patient
+         })
+    }catch{
+        res.json({succes:false});
+    }
+}
 
 const changeDoctorContact= async (req,res)=>{
     try{
@@ -143,5 +163,6 @@ module.exports={
     deletePatientContact,
     addDoctorContact ,
     changeDoctorContact ,
-    updateUser
+    updateUser,
+    deleteDoctorContact
 }

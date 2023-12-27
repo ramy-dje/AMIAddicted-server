@@ -21,7 +21,7 @@ const registerAdmin = async (req, res) => {
       return res.status(500).json({ message: "Email already existing" });
     }
   
-    const adminId = await createAdmin(
+    const adminId = await createUser(
       {
         Nom: Nom,
         Prenom: Prenom,
@@ -165,15 +165,15 @@ const login = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  const { userInfo, sessionId } = req.currentUser;
+ // const { userInfo, sessionId } = req.currentUser;
   const { deleteUserId } = req.body;
 
-  if (userInfo.role !== "ADMIN") {
+  /*if (userInfo.role !== "ADMIN") {
     console.log("User:", userInfo._id, "Is an Admin");
     return res.status(500).json({
       error: "You're Not Authorized to access this recource. ADMIN ONLY",
     });
-  }
+  }*/
 
   await crudDeleteUser(deleteUserId);
 

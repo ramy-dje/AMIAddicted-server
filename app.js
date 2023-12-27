@@ -8,9 +8,10 @@ const messageRouter = require("./routes/messageRouter");
 const allertRouter = require("./routes/alertRoutes");
 const questionRouter = require("./routes/questionRoutes");
 const addeddRoutes = require("./routes/addeddRoutes");
+const generalChatRoutes = require("./routes/generalChatRoutes");
 const cors = require("cors");
 
-const { currentUser } = require("./middlewares/authMiddleware");
+///const { currentUser } = require("./middlewares/authMiddleware");
 
 require("dotenv").config({ path: ".env" });
 const MONGODB_URL = process.env.MONGODB_URL;
@@ -24,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "20mb" }));
 
 mongoose
-  .connect(MONGODB_URL)
+  .connect("mongodb+srv://ramyromirso:pgR2JieInfx9nbog@cluster0.s4as52d.mongodb.net/?retryWrites=true&w=majority")
   .then(() => {
     console.log("db connected");
   })
@@ -32,7 +33,7 @@ mongoose
     console.error("Error connecting to the database:", err);
   });
 
-app.use(currentUser);
+//app.use(currentUser);
 
 app.use(
   "/api",
@@ -41,7 +42,8 @@ app.use(
   messageRouter,
   allertRouter,
   questionRouter,
-  addeddRoutes
+  addeddRoutes,
+  generalChatRoutes
 );
 
 app.get("/", (req, res) => {
