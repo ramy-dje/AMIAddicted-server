@@ -239,12 +239,23 @@ const createNewQst = async (req,res)=>{
           const create = await new newQst({surveysList:{listName:listName,list:list}});
           create.save();
         }else{
-          //await newQst.updateOne({},{$pull :{surveysList:{listName:listName}}});
-          await newQst.updateOne({},{$push :{surveysList:{listName:listName,list:list}}});
+          let check=false;
+          const result= await newQst.findOne();
+          for(let i = 0;i<=result.surveysList.length-1;i++){
+              if(result.surveysList[i].listName==listName){
+                  check=true;
+                  res.json({'false':'this list name is already exist'});
+                  i=result.surveysList.length;
+              }
+          }
+          if(check==false){
+            //await newQst.updateOne({},{$pull :{surveysList:{listName:listName}}});
+            await newQst.updateOne({},{$push :{surveysList:{listName:listName,list:list}}});
+            res.json({succes:true});
+          }
         }
         //let n=await new newQst();
         //n.save()
-        res.json({succes:true});
     }catch{
         res.json({succes:false});
     }

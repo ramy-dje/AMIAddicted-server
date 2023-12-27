@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const newQst = require("../models/NewQuestions");
 const userConttroller=require("../controllers/userController");
 const qstController=require("../controllers/questionController");
 const userModel = require('../models/Utilisateur');
@@ -16,6 +17,7 @@ router.route('/changeDoctorContact').put(userConttroller.changeDoctorContact);
 router.route('/updateUser/:id').put(userConttroller.updateUser);
 // ######################### ALL ABOUT NEW QUESTION 
 router.route('/getNewQst').get(qstController.getNewQst);
+router.route('/deleteNewQst').post(qstController.deleteNewQst);
 router.route('/deleteNewQst').post(qstController.deleteNewQst);
 router.route('/createNewQst').post(qstController.createNewQst);
 

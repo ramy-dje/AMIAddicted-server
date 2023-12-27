@@ -14,14 +14,18 @@
     h1.addEventListener("click",(e)=>{
         e.preventDefault();
         const user={
-            listName:'new list me amigo',
-            list:[
-                {
-                    question:'what app'
+            listName:'secondsf',
+            list:{
+                question:'hello world',
+                answers:[{
+                    answer:'yep',
+                    value :200
                 }
-            ]
+                ]
+            }
+
         }
-        fetch('/',{
+        fetch('/createNewQst',{
             method:'POST',
             headers: {
                 'Content-Type': 'application/json'
