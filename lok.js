@@ -17,7 +17,7 @@ mongoose
   app.use(bodyParser.json({limit:'20mb'}));
   const cont =require("./controllers/questionController");
   const cont2 =require("./controllers/messageController");
-  const rout=require("./routes/messageRouter");
+  const rout=require("./routes/addeddRoutes");
 const gen=require('./controllers/generalChatController');
 app.post("/gen",gen.addGeneraleChat);
 app.get("/",(req,res)=>{

@@ -14,12 +14,9 @@
     h1.addEventListener("click",(e)=>{
         e.preventDefault();
         const user={
-            sender:'65801fb5cfa9ba42a225f3d0',
-            reciver:'658030612247ba081110ddc4',
-            msg:"hello world",
-
+            listName:'seconds'
         }
-        fetch('/message',{
+        fetch('/getOneNewQst',{
             method:'POST',
             headers: {
                 'Content-Type': 'application/json'
