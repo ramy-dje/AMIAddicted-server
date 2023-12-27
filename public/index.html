@@ -14,14 +14,12 @@
     h1.addEventListener("click",(e)=>{
         e.preventDefault();
         const user={
-            listName:'new list me amigo',
-            list:[
-                {
-                    question:'what app'
-                }
-            ]
+            sender:'65801fb5cfa9ba42a225f3d0',
+            reciver:'658030612247ba081110ddc4',
+            msg:"hello world",
+
         }
-        fetch('/',{
+        fetch('/message',{
             method:'POST',
             headers: {
                 'Content-Type': 'application/json'

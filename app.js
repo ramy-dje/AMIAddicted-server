@@ -8,6 +8,7 @@ const messageRouter = require("./routes/messageRouter");
 const allertRouter = require("./routes/alertRoutes");
 const questionRouter = require("./routes/questionRoutes");
 const addeddRoutes = require("./routes/addeddRoutes");
+const generalChatRoutes = require('./routes/generalChatRoutes');
 const cors = require("cors");
 
 const { currentUser } = require("./middlewares/authMiddleware");
@@ -41,7 +42,8 @@ app.use(
   messageRouter,
   allertRouter,
   questionRouter,
-  addeddRoutes
+  addeddRoutes,
+  generalChatRoutes
 );
 
 app.get("/", (req, res) => {
