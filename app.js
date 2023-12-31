@@ -6,7 +6,7 @@ const authRouter = require("./routes/authRoutes");
 const acceptRouter = require("./routes/acceptRoutes");
 const messageRouter = require("./routes/messageRouter");
 const allertRouter = require("./routes/alertRoutes");
-const questionRouter = require("./routes/questionRoutes");
+
 const addeddRoutes = require("./routes/addeddRoutes");
 
 const generalChatRoutes = require("./routes/generalChatRoutes");
@@ -45,7 +45,6 @@ app.use(
   acceptRouter,
   messageRouter,
   allertRouter,
-  questionRouter,
   addeddRoutes,
   generalChatRoutes
 );
