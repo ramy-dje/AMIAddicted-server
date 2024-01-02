@@ -96,4 +96,6 @@ router.route('/getUser/:id').get(async(req,res)=>{
     res.json(user)
 })
 
+
+
 module.exports = router;

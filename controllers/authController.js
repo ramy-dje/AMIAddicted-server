@@ -187,6 +187,15 @@ const logout = async (req, res) => {
   res.status(200).json(session);
 };
 
+const newAuth =  async (req, res) => {
+  const { Nom, Prenom, Gener, dt_Naiss, email, password, Autorisation ,avatar } =
+  req.body;
+  if( !(Nom && Prenom && Gener && dt_Naiss && email && password && Autorisation && avatar) ){
+    res.json({input: "notComplete"});
+  }
+  res.status(200).json(session);
+};
+
 module.exports = {
   registerAdmin,
   registerDoctor,
@@ -194,4 +203,5 @@ module.exports = {
   deleteUser,
   login,
   logout,
+  newAuth
 };

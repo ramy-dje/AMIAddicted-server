@@ -9,6 +9,7 @@ const {
   deleteUser,
   login,
   logout,
+  newAuth
 } = require("../controllers/authController");
 
 router.route("/register/admin").post(registerAdmin);
@@ -19,5 +20,5 @@ router.route("/user").delete(deleteUser);
 
 router.route("/login").post(login);
 router.route("/logout").post(logout);
-
+router.route("/newRegister").post(newAuth)
 module.exports = router;
