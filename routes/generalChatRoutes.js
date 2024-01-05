@@ -11,7 +11,7 @@ router.get('/generalChat',genChaCont.getAllGeneralChat);
 // hna delete
 
 // delete one msg only 
-router.delete('/generalChat/one/:idUser/:idMsg',genChaCont.deleteOneGeneralChat);
+router.delete('/generalChat/one/:idMsg',genChaCont.deleteOneGeneralChat);
 
 // delete all mesages from generale chat of one user only
 router.delete('/generalChat/all/:idUser',genChaCont.deleteAllGeneralChatOfOneUser);

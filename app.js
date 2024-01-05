@@ -6,8 +6,9 @@ const authRouter = require("./routes/authRoutes");
 const acceptRouter = require("./routes/acceptRoutes");
 const messageRouter = require("./routes/messageRouter");
 const allertRouter = require("./routes/alertRoutes");
-
 const addeddRoutes = require("./routes/addeddRoutes");
+const NewQstResRoutes = require("./routes/NewQstResRoutes");
+const SurveyToUserRoutes = require("./routes/SurveyToUserRoutes");
 
 const generalChatRoutes = require("./routes/generalChatRoutes");
 
@@ -46,7 +47,9 @@ app.use(
   messageRouter,
   allertRouter,
   addeddRoutes,
-  generalChatRoutes
+  generalChatRoutes,
+  SurveyToUserRoutes,
+  NewQstResRoutes
 );
 
 app.get("/", (req, res) => {

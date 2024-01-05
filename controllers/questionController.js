@@ -29,6 +29,7 @@ const deleteNewQst = async (req,res)=>{
 
 const createNewQst = async (req,res)=>{
   const {list,listName}=req.body;
+  console.log(list,listName)
   if(! (list && listName)){
     res.json({input: "notComplete"});
   }else{

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const {Schema,SchemaTypes} = mongoose;
 const SurveyToUserSchema = new Schema({
     userId :{
         type: SchemaTypes.ObjectId,

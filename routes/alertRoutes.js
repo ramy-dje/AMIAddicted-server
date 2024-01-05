@@ -43,4 +43,8 @@ router.route('/alert/updateQuestionnaire/vue/:idUser').get(alertController.getAl
 router.route('/alert/isAcceptNot/vue/:idUser').get(alertController.getAlertIsAcceptNotVue);
 // contact alert
 router.route('/alert/contact/vue/:idUser').get(alertController.getAlertContactVue);
+
+router.post('/createNotification',alertController.createOneAlert);
+router.post('/getNotifications/:idUser',alertController.getNotificationForUser);
+
 module.exports = router;

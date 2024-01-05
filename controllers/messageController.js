@@ -1,5 +1,6 @@
 const msgFunc = require("../crud/crudAlertMessage");
 const msgModel = require("../models/Message");
+
 // put message
 const createMsgController = async (req, res) => {
   const { sender, reciver , msg } = req.body;
@@ -49,6 +50,19 @@ const deleteOneMsg = async (req,res) => {
       }
   }
 }
+const deleteMessage = async (req,res) => {
+  const idMsg=req.params.idMsg;
+  if(!(idMsg)){
+          res.json({input: "notComplete"});
+  }else{
+      try{
+          const s = await msgModel.deleteOne({_id:idMsg});
+          res.json({"succes":s});
+      }catch{
+          res.json({"succes":false});
+      }
+  }
+}
 // this may use by admins only
 const deleteAllMsg = async (req,res) => {
   try{
@@ -63,5 +77,6 @@ module.exports = {
   getAllMsgOrderByDate,
   deleteAllMsgOfUser,
   deleteOneMsg,
-  deleteAllMsg
+  deleteAllMsg,
+  deleteMessage
 };

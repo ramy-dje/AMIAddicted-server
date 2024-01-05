@@ -8,6 +8,7 @@ const {
 
 const { createSession, deldeleteSession } = require("../crud/crudSession");
 const { deleteSession } = require("../crud/crudSession");
+const utilisateur = require("../models/Utilisateur")
 
 const registerAdmin = async (req, res) => {
   const { Nom, Prenom, Gener, dt_Naiss, email, password, Autorisation ,avatar } =
@@ -193,7 +194,8 @@ const newAuth =  async (req, res) => {
   if( !(Nom && Prenom && Gener && dt_Naiss && email && password && Autorisation && avatar) ){
     res.json({input: "notComplete"});
   }
-  res.status(200).json(session);
+  const data = await utilisateur.create({ Nom, Prenom, Gener, dt_Naiss, email, password, Autorisation ,avatar });
+  res.status(200).json({user:data});
 };
 
 module.exports = {

@@ -12,7 +12,8 @@ router.route("/message").get(getAllMsgOrderByDate);
 router.delete('/message/allOfOne/:idSender/:idRecever',msgCont.deleteAllMsgOfUser);
 
 // hadi tfasi msg wahd brk 
-router.delete('/message/one/:idUser/:idMsg',msgCont.deleteOneMsg);
+router.delete('/mymessage/:idUser/:idMsg',msgCont.deleteOneMsg);
+router.delete('/anymessage/:idMsg',msgCont.deleteMessage);
 
 // hadi tfassi klch , ya3ni les msgs kaml
 router.delete('/message/all',msgCont.deleteAllMsg);

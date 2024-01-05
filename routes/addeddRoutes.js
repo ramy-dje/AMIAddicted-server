@@ -20,7 +20,7 @@ router.route('/deleteNewQst').post(qstController.deleteNewQst);
 router.route('/createNewQst').post(qstController.createNewQst);
 //###################### THIS WHAT LEFT FOR NOW
 router.route('/updateNewQst').post(async (req,res)=>{
-    const {listName ,list}=req.body;
+    const {listName ,list,newListName}=req.body;
     if(!(listName && list)){
         res.json({input: "notComplete"});
     }else{
@@ -32,7 +32,7 @@ router.route('/updateNewQst').post(async (req,res)=>{
                     // firstly it delete the old one
                     await newQst.updateOne({},{$pull :{surveysList:{listName:listName}}});
                     // secondly it push the new one
-                    await newQst.updateOne({},{$push :{surveysList:{listName:listName,list:list}}});
+                    await newQst.updateOne({},{$push :{surveysList:{listName:newListName,list:list}}});
                     check=true;
                     i=result.surveysList.length;
                     res.json({succes:true});

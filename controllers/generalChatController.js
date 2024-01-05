@@ -27,12 +27,11 @@ const getAllGeneralChat = async (req,res)=>{
 }
 const deleteOneGeneralChat = async (req,res)=>{
     const idMsg=req.params.idMsg;
-    const idUser=req.params.idUser;
-    if(!(idMsg && idUser)){
+    if(!(idMsg )){
             res.json({input: "notComplete"});
     }else{
         try{
-            await generalChat.deleteOne({_id:idMsg,id_Exéditeur:idUser});
+            await generalChat.deleteOne({_id:idMsg});
             res.json({"succes":true});
         }catch{
             res.json({"succes":false});

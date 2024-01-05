@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const {Schema,SchemaTypes} = mongoose;
 const newQstResSchema = new Schema({
     surveyName : String,
     patient : {
