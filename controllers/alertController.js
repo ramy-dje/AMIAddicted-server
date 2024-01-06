@@ -172,7 +172,7 @@ const createOneAlert = async (req,res)=>{
     if(!idUser && !notification){
       res.json({success:"false",message:'empty fields'})
     }else{
-      const res = await alertModel.create({id_Utilisateur:idUser,notification : notification })
+      const ress = await alertModel.create({id_Utilisateur:idUser,notification : notification })
       res.json({success:true})
     }
 }
@@ -181,9 +181,9 @@ const getNotificationForUser = async(req,res)=>{
   if(! idUser){
     res.json({input: "notComplete"});
   }else{
-    const res =await alertModel.find({id_Utilisateur:idUser}).sort({ date_alert: 1 });
+    const ress =await alertModel.find({id_Utilisateur:idUser}).sort({ date_alert: -1 });
     await alertModel.updateMany({id_Utilisateur:idUser},{vue:true});
-    res.json({success:true})
+    res.json(ress)
   }
 }
 

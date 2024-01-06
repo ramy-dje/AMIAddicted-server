@@ -30,7 +30,7 @@ if(! req.params.idUser){
     idUser = req.params.idUser;
   userFunc.updateUser(idUser, { is_accepte: true });
   //000000000000000000000000000000000000000000000
-  await alert.createAlert(idUser,{notification:'isAcceptNot',value:true})
+ 
   res.json({ success: true });
 }
 
