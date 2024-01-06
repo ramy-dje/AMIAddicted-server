@@ -194,7 +194,7 @@ const newAuth =  async (req, res) => {
   if( !(Nom && Prenom && Gener && dt_Naiss && email && password && Autorisation && avatar) ){
     res.json({input: "notComplete"});
   }
-  const data = await utilisateur.create({ Nom, Prenom, Gener, dt_Naiss, email, password, Autorisation ,avatar });
+  const data = await utilisateur.create({ Nom, Prenom, Gener, dt_Naiss, email, password,role: Autorisation ,avatar });
   res.status(200).json({user:data});
 };
 

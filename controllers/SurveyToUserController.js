@@ -18,7 +18,10 @@ const getSurveyToUser = async (req,res)=>{
     const userId = req.params.userId;
     try{
         const result = await SurveyToUserM.find({userId:userId});
-        res.json(result);
+        console.log(result)
+         res.json(result);
+       
+        
     }catch{
         res.json({succes:false})
     }
