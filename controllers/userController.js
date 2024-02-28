@@ -15,7 +15,7 @@ const getDoctors =async (req,res)=>{
 
 const getAdmins = async (req,res)=>{
     try{
-        const adm = await Users.find({role:'ADMIN'});
+        const adm = await Users.find({role:'admin'});
         res.json(adm)
     }catch(e){
         res.json({succes:false});
@@ -154,6 +154,18 @@ const updateUser = async (req,res)=>{
         res.json({succes:false});
     }
 }
+const deleteUser = async (req,res)=>{
+    try{
+        const {id} = req.params;
+        const data = req.body;
+        const user = await Users.deleteOne({_id:id});
+        res.json({
+            isSuccess : true,
+        })
+    }catch{
+        res.json({succes:false});
+    }
+}
 //
 module.exports={
     getDoctors ,
@@ -164,5 +176,6 @@ module.exports={
     addDoctorContact ,
     changeDoctorContact ,
     updateUser,
-    deleteDoctorContact
+    deleteDoctorContact,
+    deleteUser
 }

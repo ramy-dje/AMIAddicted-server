@@ -5,21 +5,22 @@ const userConttroller=require("../controllers/userController");
 const qstController=require("../controllers/questionController");
 const Users = require("../models/Utilisateur");
 
-router.route('/getDoctors').get(userConttroller.getDoctors);
-router.route('/getAdmins').get(userConttroller.getAdmins);
-router.route('/getPatients').get(userConttroller.getPatients);
-router.route('/addPatientContact').put(userConttroller.addPatientContact);
-router.route('/deletePatientContact').put(userConttroller.deletePatientContact);
-router.route('/addDoctorContact').put(userConttroller.addDoctorContact);
-router.route('/deleteDoctorContact').put(userConttroller.deleteDoctorContact);
-router.route('/changeDoctorContact').put(userConttroller.changeDoctorContact);
-router.route('/updateUser/:id').put(userConttroller.updateUser);
+router.get('/getDoctors',userConttroller.getDoctors);
+router.get('/getAdmins',userConttroller.getAdmins);
+router.get('/getPatients',userConttroller.getPatients);
+router.put('/addPatientContact',userConttroller.addPatientContact);
+router.put('/deletePatientContact',userConttroller.deletePatientContact);
+router.put('/addDoctorContact',userConttroller.addDoctorContact);
+router.put('/deleteDoctorContact',userConttroller.deleteDoctorContact);
+router.put('/changeDoctorContact',userConttroller.changeDoctorContact);
+router.put('/updateUser/:id',userConttroller.updateUser);
+router.delete('/deleteUser/:id',userConttroller.deleteUser);
 // ######################### ALL ABOUT NEW QUESTION 
-router.route('/getNewQst').get(qstController.getNewQst);
-router.route('/deleteNewQst').post(qstController.deleteNewQst);
-router.route('/createNewQst').post(qstController.createNewQst);
+router.get('/getNewQst',qstController.getNewQst);
+router.post('/deleteNewQst',qstController.deleteNewQst);
+router.post('/createNewQst',qstController.createNewQst);
 //###################### THIS WHAT LEFT FOR NOW
-router.route('/updateNewQst').post(async (req,res)=>{
+router.post('/updateNewQst',async (req,res)=>{
     const {listName ,list,newListName}=req.body;
     if(!(listName && list)){
         res.json({input: "notComplete"});
@@ -46,7 +47,7 @@ router.route('/updateNewQst').post(async (req,res)=>{
         }
     }
 });
-router.route('/getOneNewQst/:listName').get(async (req,res)=>{
+router.get('/getOneNewQst/:listName',async (req,res)=>{
     const {listName}=req.params;
     if(!(listName)){
         res.json({input: "notComplete"});
@@ -69,7 +70,7 @@ router.route('/getOneNewQst/:listName').get(async (req,res)=>{
         }
     }
 });
-router.route('/getAnalytics').get(async(req,res)=>{
+router.get('/getAnalytics',async(req,res)=>{
     const last12Months = [];
     const currentDate = new Date();
     currentDate.setDate(currentDate.getDate()+1);
@@ -90,7 +91,7 @@ router.route('/getAnalytics').get(async(req,res)=>{
 
 })
 
-router.route('/getUser/:id').get(async(req,res)=>{ 
+router.get('/getUser/:id',async(req,res)=>{ 
     const {id} = req.params;
     const user = await Users.findById(id);
     res.json(user)

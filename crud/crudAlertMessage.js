@@ -56,7 +56,7 @@ const deleteStat_user = async (idStat) => {
   await stat_user.deleteOne({ _id: idStat });
 };
 const getMessages = async () => {
-  const result = await message.find().sort({ date_envoi: 1 });
+  const result = await message.find()/*.populate('id_Exéditeur').populate('id_Destnataire')*/.sort({ date_envoi: 1 });
   return result;
 };
 const getAlerts = async () => {

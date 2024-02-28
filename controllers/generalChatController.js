@@ -18,7 +18,7 @@ const addGeneraleChat = async (req,res)=>{
 const getAllGeneralChat = async (req,res)=>{
     try{
 
-        const result= await generalChat.find()./*populate('id_Exéditeur').*/sort({date_envoi : 1});
+        const result= await generalChat.find().populate('id_Exéditeur').sort({date_envoi : 1});
 
         res.json(result);
     }catch{

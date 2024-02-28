@@ -7,7 +7,7 @@ const {
   acceptUserControlle,
 } = require("../controllers/acceptUsreController");
 
-router.route("/unacceptedUsers").get(findUnacceptedUserControlle);
-router.route("/acceptUser/:idUser").put(acceptUserControlle);
+router.get("/unacceptedUsers",findUnacceptedUserControlle);
+router.put("/acceptUser/:idUser",acceptUserControlle);
 
 module.exports = router;

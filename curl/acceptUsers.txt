@@ -1,5 +1,0 @@
-# test getUnacceptedUsers
-curl -X GET http://localhost:3000/api/unacceptedUsers -H "Authorization: 6560f6b98a83f867cc581b79"
-
-# test acceptUser
-curl -X PUT http://localhost:3000/api/acceptUser/655afd3021de73da443c1d52  -H "Authorization: 6560f6b98a83f867cc581b79"

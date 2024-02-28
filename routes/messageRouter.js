@@ -6,8 +6,8 @@ const {
   getAllMsgOrderByDate,
 } = require("../controllers/messageController");
 
-router.route("/message").post(createMsgController);
-router.route("/message").get(getAllMsgOrderByDate);
+router.post("/message",createMsgController);
+router.get("/message",getAllMsgOrderByDate);
 // hadi tfasi les msgs kamel mais ta3 user wa7d m3a recever wahd
 router.delete('/message/allOfOne/:idSender/:idRecever',msgCont.deleteAllMsgOfUser);
 

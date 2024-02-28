@@ -1,8 +1,6 @@
-// const alert=require("./crud/crudAlertMessage");
 const alertModel= require("../models/Alerts");
 const alertFunc = require("../crud/crudAlertMessage");
-// delete alerts
-// hadi te3 delete lazem ta3tiha id f url te3 alert
+
 const deleteAlerteControll = async (req, res) => {
   if(! req.params.idAlert){
     res.json({input: "notComplete"});
@@ -20,8 +18,7 @@ const getAlertesControll = async (req, res) => {
     res.json(r);
   });
 };
-// 00000000000000000000000000000000000
-// get alerts of accept users
+
 const getAlertsAcceptUser =async (req,res)=>{
   alertFunc.getAlert('isAcceptNot').then((r)=>{
     res.json(r);

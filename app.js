@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "20mb" }));
 
 mongoose
-  .connect("mongodb+srv://ramyromirso:pgR2JieInfx9nbog@cluster0.s4as52d.mongodb.net/?retryWrites=true&w=majority")
+  .connect(process.env.MONGODB)
   .then(() => {
     console.log("db connected");
   })

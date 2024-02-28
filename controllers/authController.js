@@ -1,180 +1,52 @@
-const {
-  createAdmin,
-  createDoctor,
-  createPatient,
-  getUserByEmail,
-  deleteUser: crudDeleteUser,
-} = require("../crud/crudUser");
+const {getUserByEmail,deleteUser: crudDeleteUser} = require("../crud/crudUser");
+const bcrypt = require("bcrypt");
+const utilisateur = require("../models/Utilisateur");
+const jwt = require('jsonwebtoken');
 
-const { createSession, deldeleteSession } = require("../crud/crudSession");
-const { deleteSession } = require("../crud/crudSession");
-const utilisateur = require("../models/Utilisateur")
 
-const registerAdmin = async (req, res) => {
-  const { Nom, Prenom, Gener, dt_Naiss, email, password, Autorisation ,avatar } =
-  req.body;
-  if( !(Nom && Prenom && Gener && dt_Naiss && email && password && Autorisation && avatar) ){
-    res.json({input: "notComplete"});
-  }else{
-    const user = await getUserByEmail(email);
-  
-    if (user) {
-      return res.status(500).json({ message: "Email already existing" });
-    }
-  
-    const adminId = await createUser(
-      {
-        Nom: Nom,
-        Prenom: Prenom,
-        Gener: Gener,
-        dt_Naiss: new Date(dt_Naiss),
-        email: email,
-        password: password,
-        is_accepte: false,
-        avatar
-      },
-      {
-        Role: "ADMIN",
-        Autorisation: Autorisation,
-      }
-    );
-  
-    res
-      .status(200)
-      .json({ message: "Admin " + adminId + " created Successfuly" });
+
+const hashPassword = async (password) => {
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    return hashedPassword;
+  } catch (error) {
+    console.error('Error hashing password:', error);
   }
-};
-
-const registerDoctor = async (req, res) => {
-  const {
-    Nom,
-    Prenom,
-    Gener,
-    dt_Naiss,
-    email,
-    password,
-    Specilite,
-    /*Sess_thrp_plnf,
-    med_atrbs,*/
-  } = req.body;
-
-  if(!(Nom && Prenom && Gener && dt_Naiss && email && password && Specilite)){
-    res.json({input: "notComplete"});
-  }else{
-
-    const user = await getUserByEmail(email);
-  
-    if (user) {
-      return res.status(500).json({ message: "Email already existing" });
-    }
-  
-    const doctorId = await createDoctor(
-      {
-        Nom: Nom,
-        Prenom: Prenom,
-        Gener: Gener,
-        dt_Naiss: new Date(dt_Naiss),
-        email: email,
-        password: password,
-        Specilite: Specilite,
-        is_accepte: false,
-      },
-      {
-        Specilite: Specilite,
-        Sess_thrp_plnf: ''/*Sess_thrp_plnf*/,
-        med_atrbs: ''/*med_atrbs*/,
-      }
-    );
-  
-    res
-      .status(200)
-      .json({ message: "Doctor " + doctorId + " created Successfuly" });
+}
+const verifyPassword = async (password, hashedPassword) => {
+  try {
+    const result = await bcrypt.compare(password, hashedPassword);
+    return result;
+  } catch (error) {
+    console.error('Error verifying password:', error);
   }
+};  
+const generateToken = (payload) => {
+  const token = jwt.sign(payload, "sp0iowu;af655$7698yr&^%^$(Q#*sd65f", { expiresIn: '24h' }); // Token expires in 1 hour
 
-};
-
-const registerPatient = async (req, res) => {
-  const {
-    Nom,
-    Prenom,
-    Gener,
-    dt_Naiss,
-    email,
-    password,
-    /*niveau_dadd,
-    moyenne_dheur,
-    moyenne_dMoinsj,
-    score_dinsom,
-    score_somlnc,
-    score_danxi,
-    score_dépr,
-    autres_attrpat,*/
-  } = req.body;
-
-  if(!(Nom && Prenom && Gener && dt_Naiss && email && password)){
-    res.json({input: "notComplete"});
-  }else{
-
-    const user = await getUserByEmail(email);
-  
-    if (user) {
-      return res.status(500).json({ message: "Email already existing" });
-    }
-  
-    const patientId = await createPatient(
-      {
-        Nom: Nom,
-        Prenom: Prenom,
-        Gener: Gener,
-        dt_Naiss: new Date(dt_Naiss),
-        email: email,
-        password: password,
-        is_accepte: false,
-      },
-      {
-        niveau_dadd:'',// niveau_dadd,
-        moyenne_dheur:'',// moyenne_dheur,
-        moyenne_dMoinsj:'',// moyenne_dMoinsj,
-        score_dinsom:'',// score_dinsom,
-        score_somlnc:'',// score_somlnc,
-        score_danxi:'',// score_danxi,
-        score_dépr:'',// score_dépr,
-        autres_attrpat:'',// autres_attrpat,
-      }
-    );
-  
-    res
-      .status(200)
-      .json({ message: "Patient " + patientId + " created Successfuly" });
-  }
+  return token;
 };
 
 const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await getUserByEmail(email);
-
   if (!user)
     return res
       .status(404)
       .json({ error: "Couldn't find a user with this email!" });
 
-  if (user.password !== password)
+  if (!verifyPassword(password,user.password))
     return res.status(404).json({ error: "Wrong password!" });
-
-  const session = await createSession(user._id);
-  res.status(200).json({ user: user, session: session });
+ 
+  res.status(200).json({ user: user});
 };
 
 const deleteUser = async (req, res) => {
- // const { userInfo, sessionId } = req.currentUser;
+
   const { deleteUserId } = req.body;
 
-  /*if (userInfo.role !== "ADMIN") {
-    console.log("User:", userInfo._id, "Is an Admin");
-    return res.status(500).json({
-      error: "You're Not Authorized to access this recource. ADMIN ONLY",
-    });
-  }*/
+ 
 
   await crudDeleteUser(deleteUserId);
 
@@ -182,26 +54,26 @@ const deleteUser = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  const { currentUser, sessionId } = req.currentUser;
-  const session = await deleteSession(sessionId);
+  const { currentUser } = req.currentUser;
+  
 
-  res.status(200).json(session);
+  res.status(200).json({message:"logged out"});
 };
 
 const newAuth =  async (req, res) => {
-  const { Nom, Prenom, Gener, dt_Naiss, email, password, Autorisation ,avatar } =
-  req.body;
+  const { Nom, Prenom, Gener, dt_Naiss, email, password, Autorisation ,avatar } =req.body;
+   
   if( !(Nom && Prenom && Gener && dt_Naiss && email && password && Autorisation && avatar) ){
     res.json({input: "notComplete"});
   }
-  const data = await utilisateur.create({ Nom, Prenom, Gener, dt_Naiss, email, password,role: Autorisation ,avatar });
-  res.status(200).json({user:data});
+  const hashedPassword =await hashPassword(password)
+  const data = await utilisateur.create({ Nom, Prenom, Gener, dt_Naiss, email, password : hashedPassword,role: Autorisation ,avatar });
+  const token = generateToken({lastName:Nom,firstName:Prenom,email,role:Autorisation});
+  res.status(200).json({user:data,token});
 };
 
 module.exports = {
-  registerAdmin,
-  registerDoctor,
-  registerPatient,
+  
   deleteUser,
   login,
   logout,

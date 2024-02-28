@@ -1,64 +1,30 @@
-const { createSession, getUserFromSession } = require("../crud/crudSession");
-const { getUser } = require("../crud/crudUser");
+const jwt = require('jsonwebtoken')
 
-const currentUser = async (req, res, next) => {
+const authorizeRoles = (...roles)=>{
+  return async (req,res,next)=>{
+     
+      if(!roles.includes(req.user.role)){
+        res.status(403).json({error:`the role ${req.user.role} doesn't  existes for this user` });
+      }else{
+        next();
+      }
+      
+  }
+}
+
+const isAuthenticated = (req, res, next) => {
+  const token = req.headers.authorization.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({ error: 'your session is expied' });
+  }
+
   try {
-    const authToken = req.header("Authorization");
-    const user = await getUserFromSession(authToken);
-    req.currentUser = {
-      userInfo: user,
-      sessionId: authToken,
-    };
-
+    const decoded = jwt.verify(token, "sp0iowu;af655$7698yr&^%^$(Q#*sd65f");
+    req.user = decoded;
     next();
   } catch (error) {
-    console.error("Couldn't Get currentUser:", error);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(401).json({ error: 'error' });
   }
 };
 
-const currentDoctor = async (req, res, next) => {
-  try {
-    const authToken = req.header("Authorization");
-    const user = await getUserFromSession(authToken);
-    req.currentUser = {
-      userInfo: user,
-      sessionId: authToken,
-    };
-
-    if (!user || user.role !== "DOCTOR") {
-      return res.status(500).json({
-        error: "You're Not Authorized to access this recource. DOCTOR ONLY",
-      });
-    }
-
-    next();
-  } catch (error) {
-    console.error("Couldn't Get currentUser:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
-};
-
-const currentAdmin = async (req, res, next) => {
-  try {
-    const authToken = req.header("Authorization");
-    const user = await getUserFromSession(authToken);
-    req.currentUser = {
-      userInfo: user,
-      sessionId: authToken,
-    };
-
-    if (!user || user.role !== "ADMIN") {
-      return res.status(500).json({
-        error: "You're Not Authorized to access this recource. ADMIN ONLY",
-      });
-    }
-
-    next();
-  } catch (error) {
-    console.error("Couldn't Get currentUser:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
-};
-
-module.exports = { currentUser, currentDoctor, currentAdmin };
+module.exports = { };
